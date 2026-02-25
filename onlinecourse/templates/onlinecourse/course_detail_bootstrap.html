@@ -52,27 +52,24 @@
             </div>
             {% if user.is_authenticated %}
             <button class="btn btn-primary" type="submit">Start Exam</button>
-            <div class="collapse">
-                <form action="" method="post">
+            <div>
+                <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                    {% csrf_token %}
                     <div class="form-group">
                         {% for question in course.question_set.all %}
-                            {question.question_text}
+                            {{question.question_text}}
+                            {% csrf_token %}
                             {% for item in question.choice_set.all %}
-                                <input type="checkbox" class="form-control" name="choice" >
-                                {item.content}
+                                <input type="checkbox" class="form-control" name="choice" value="{{item.id}}" >
+                                {{item.content}}
                             {% endfor %}
-                        {% endif %}
+                        {% endfor %}
                         <button class="btn btn-success" type="submit">Submit</button>
                     </div>
 
                 </form>
 
             </div>
-
-                
-
-
-
             {% endif %}
             
     </div>
